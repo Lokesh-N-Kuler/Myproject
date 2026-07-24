@@ -1,0 +1,91 @@
+import "../styles/dashboard.css"
+import "../styles/navbar.css"
+import pfp from'../assets/profile.jpg'
+import { useState } from "react";
+function DashBoard()
+{ 
+    const [active, setActive] = useState("Dashboard");
+    return(
+        <>
+        <div className="container">
+        <div className="left">
+            <nav>
+            <h4 className="H4">CITY PILOT AI</h4>
+            <h6 className="H6">Smart City Safe City</h6>
+            
+        </nav>
+        <div className="center"><input placeholder="search anything"></input></div>
+        </div>
+
+        <div className="right">
+        <img src={pfp} alt="profile" className="imgs"></img>
+        <h6>Lokesh N K</h6>
+        </div>
+        </div><hr></hr>
+
+        <div className="navgation">
+    <nav className="sidebar">
+
+        <button
+            className={active === "Dashboard" ? "active" : ""}
+            onClick={() => setActive("Dashboard")}
+        >
+            Dashboard
+        </button>
+
+        <button
+            className={active === "Traffic" ? "active" : ""}
+            onClick={() => setActive("Traffic")}
+        >
+            Traffic
+        </button>
+
+        <button
+            className={active === "Flood" ? "active" : ""}
+            onClick={() => setActive("Flood")}
+        >
+            Flood
+        </button>
+
+        <button
+            className={active === "Pollution" ? "active" : ""}
+            onClick={() => setActive("Pollution")}
+        >
+            Pollution
+        </button>
+
+        <button
+            className={active === "Emergency" ? "active" : ""}
+            onClick={() => setActive("Emergency")}
+        >
+            Emergency
+        </button>
+
+        <button
+            className={active === "Analytics" ? "active" : ""}
+            onClick={() => setActive("Analytics")}
+        >
+            Analytics
+        </button>
+
+        <button
+            className={active === "AI Assistant" ? "active" : ""}
+            onClick={() => setActive("AI Assistant")}
+        >
+            AI Assistant
+        </button>
+
+        <button
+            className={active === "Settings" ? "active" : ""}
+            onClick={() => setActive("Settings")}
+        >
+            Settings
+        </button>
+
+    </nav>
+</div>
+        </>
+    ); 
+}
+
+export default DashBoard
