@@ -1,11 +1,13 @@
 import "../styles/aiRecommendation.css";
 
+import "../styles/aiRecommendation.css";
+
 function AIRecommendation() {
   return (
     <div className="ai-card">
 
       <div className="ai-header">
-        <h2> AI Recommendation</h2>
+        <h2>AI Recommendation</h2>
         <span className="status">Live</span>
       </div>
 

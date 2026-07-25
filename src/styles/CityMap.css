@@ -2,24 +2,21 @@
 
 .map-card{
     margin-top:25px;
-    
     padding:20px;
     border-radius:12px;
-   
     width: 800px;
-    height: 100px;
-    height: auto;
     position: absolute;
-   top: 117px;
-   left: 160px;
+    top: 70px;
+    left: 160px;
+    
 }
 .MapContainer
 {
     position: absolute;
-    width: 800px;
-    height: 100%;
-    right: 40px;
-    top: -0.2px;
+    width: 400px;
+    height: 300px;
+    right: 430px;
+    top: 70px;
     
     
 }

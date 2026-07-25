@@ -6,16 +6,15 @@
     gap:20px;
 }
 .stat-card1{
-    border: 2px solid rgba(0, 0, 0, 0.183);
     margin-top: 20px;
-    background-color: #ffffff;
+    background-color: rgba(13, 13, 25, 0.75);
     border-radius:12px;
     padding:20px;
     display:flex;
     flex-direction: column;
     align-items:center;
     gap:15px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.08);
+    border: 1px solid  white;
     transition:.2s;
     width: 120px;
     height: auto;
@@ -24,15 +23,14 @@
 
 .stat-card2{
     
-    border: 2px solid rgba(0, 0, 0, 0.183);
-    background:#ffffff;
+    border: 1px solid  white;
+    background-color: rgba(13, 13, 25, 0.75);
     border-radius:12px;
     padding:20px;
     display:flex;
     flex-direction: column;
     align-items:center;
     gap:15px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.08);
     transition:.2s;
     width: 120px;
     height: auto;
@@ -77,20 +75,20 @@
 .stat-content h4{
     margin:0;
     font-size:15px;
-    color:#6b7280;
+    color:white;
     font-weight:500;
 }
 
 .stat-content h2{
     margin:5px 0;
     font-size:28px;
-    color:#111827;
+    color:white;
 }
 
 .stat-content p{
     margin:0;
     font-size:14px;
-    color:#9ca3af;
+    color:white;
 }
 
 @media(max-width:900px){
