@@ -16,7 +16,9 @@
     width: 400px;
     height: 300px;
     right: 430px;
-    top: 70px;
-    
-    
+    top: 70px;  
+}
+.map-card h2{
+    font-weight: 500;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }

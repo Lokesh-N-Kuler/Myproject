@@ -1,28 +1,35 @@
 .alerts-card{
-    background:#fff;
+    background-color: rgba(13, 13, 25, 0.983);
     border-radius:12px;
+    border: px solid white;
     padding:20px;
     margin-top:20px;
-    box-shadow:0 2px 8px rgba(0,0,0,.08);
+    box-shadow: 0px 0px 5px white;
+    position: absolute;
+    top: 150px;
+    margin-left:570px ;
+    width: 350px;
+    height: 320px;
 }
 
 .alerts-header{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:20px;
+    margin-bottom:px;
 }
 
 .alerts-header span{
-    color:#2563eb;
+    color:red;
     font-weight:600;
+    
 }
 
 .alert-item{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    padding:15px 0;
+    padding:4px 0;
     border-bottom:1px solid #e5e7eb;
 }
 
@@ -32,7 +39,7 @@
 
 .alert-info h4{
     margin:0;
-    color:#111827;
+    color:#fcfcfd;
 }
 
 .alert-info p{
@@ -58,7 +65,7 @@
 }
 
 .high{
-    background:#ef4444;
+    background:#fc1818;
 }
 
 .medium{
@@ -66,5 +73,11 @@
 }
 
 .low{
-    background:#10b981;
+    background:rgb(5, 245, 177);
+}
+.alert-item:hover{
+    background-color:#010b11c6;
+    border-radius: 10px;
+    color: black;
+    
 }
