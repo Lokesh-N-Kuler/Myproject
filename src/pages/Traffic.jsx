@@ -1,9 +1,37 @@
+import TrafficHeader from "../components/TrafficHeader";
+import TrafficStats from "../components/TrafficStats";
+import "../styles/traffic.css";
+import CongestionChart from "../components/CongestionChart";
+import SignalStatus from "../components/SignalStatus";
+import TrafficMap from "../components/TrafficMap";
 function Traffic() {
   return (
-    <div>
-      <h1>Traffic Management</h1>
-      <p>This is the Traffic Page.</p>
-    </div>
+    <section id="traffic" className="traffic-page">
+
+      <TrafficHeader />
+
+      <TrafficStats />
+
+      <TrafficMap />
+
+      <div className="traffic-grid">
+
+    <CongestionChart />
+
+    <SignalStatus />
+
+</div>
+
+      {/* Next we'll add:
+          - Traffic Map
+          - Congestion Chart
+          - Signal Status
+          - Road Closures
+          - AI Route Recommendation
+          - Traffic Incidents
+      */}
+
+    </section>
   );
 }
 

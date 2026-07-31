@@ -7,13 +7,13 @@ import AQIchart from "./components/AQIchart.jsx";
 import AIRecommendation from "./components/AIRecommendation.jsx";
 import "../src/App.css"
 import RecentAlerts from "./components/RecentAlerts";
-
+import Traffic from './pages/Traffic.jsx';
 
 function App() {
 
   return(
     <>
-        <div className="mapnav">
+        <div className="mapnav" id="dashboard">
                <DashBoard/>
 
               <div className="map-card">
@@ -40,7 +40,12 @@ function App() {
         </div>
         <navbar/>
         <RecentAlerts />
+        
+        <div id="traffic">
+          <Traffic />
+        </div>
 
+      
     </>
   ) ; 
 

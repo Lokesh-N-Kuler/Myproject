@@ -28,17 +28,28 @@ function DashBoard()
 
         <button
             className={active === "Dashboard" ? "active" : ""}
-            onClick={() => setActive("Dashboard")}
-        >
+            onClick={() => {
+            setActive("Dashboard");
+            document.getElementById("dashboard").scrollIntoView({
+            behavior: "smooth"
+            });
+            }}
+            >
             Dashboard
         </button>
 
         <button
             className={active === "Traffic" ? "active" : ""}
-            onClick={() => setActive("Traffic")}
-        >
+            onClick={() => {
+            setActive("Traffic");
+            document.getElementById("traffic").scrollIntoView({
+            behavior: "smooth"
+            });
+            }}
+            >
             Traffic
         </button>
+
 
         <button
             className={active === "Flood" ? "active" : ""}
