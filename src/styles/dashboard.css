@@ -9,7 +9,7 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
+    padding: 1px;
 }
 .left{
     display: flex;

@@ -1,30 +1,12 @@
-import "../styles/dashboard.css"
-import "../styles/navbar.css"
-import pfp from'../assets/profile.jpg'
+import "../styles/vnavbar.css"
 import { useState } from "react";
-function DashBoard()
-{ 
+
+function Vnavbar(){
     const [active, setActive] = useState("Dashboard");
     return(
         <>
-        <div className="container">
-        <div className="left">
-            <nav>
-            <h4 className="H4">CITY PILOT AI</h4>
-            <h6 className="H6">Smart City Safe City</h6>
-            
-        </nav>
-        <div className="center"><input placeholder="search anything"></input></div>
-        </div>
-
-        <div className="right">
-        <img src={pfp} alt="profile" className="imgs"></img>
-        <h6>Lokesh N K</h6>
-        </div>
-        </div><hr></hr>
-
-        <div className="navgation">
-    <nav className="sidebar">
+            <div className="vnavgation">
+    <nav className="vsidebar">
 
         <button
             className={active === "Dashboard" ? "active" : ""}
@@ -95,9 +77,7 @@ function DashBoard()
 
     </nav>
 </div>
-
         </>
-    ); 
+    );
 }
-
-export default DashBoard
+export default Vnavbar;

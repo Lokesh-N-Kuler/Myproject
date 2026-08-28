@@ -1,7 +1,7 @@
 
 
 .map-card{
-    margin-top:25px;
+    margin-top:10px;
     padding:20px;
     border-radius:12px;
     width: 800px;
@@ -12,11 +12,11 @@
 }
 .MapContainer
 {
-    position: absolute;
+    position:sticky;
     width: 400px;
     height: 300px;
     right: 430px;
-    top: 70px;  
+ 
 }
 .map-card h2{
     font-weight: 500;

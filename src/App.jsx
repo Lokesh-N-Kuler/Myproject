@@ -8,6 +8,7 @@ import AIRecommendation from "./components/AIRecommendation.jsx";
 import "../src/App.css"
 import RecentAlerts from "./components/RecentAlerts";
 import Traffic from './pages/Traffic.jsx';
+import Vnavbar from './pages/Vnavbar.jsx';
 
 function App() {
 
@@ -28,7 +29,7 @@ function App() {
          <AQIchart/>
         </div>
         </div>
-
+  n
         <div className="Aicard">
         <AIRecommendation />
         </div>
@@ -43,8 +44,12 @@ function App() {
         
         <div id="traffic">
           <Traffic />
+          
         </div>
-
+        
+        <div id="fixednav">
+          <Vnavbar/>
+        </div>
       
     </>
   ) ; 
