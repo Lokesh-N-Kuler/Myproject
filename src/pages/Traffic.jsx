@@ -4,6 +4,12 @@ import "../styles/traffic.css";
 import CongestionChart from "../components/CongestionChart";
 import SignalStatus from "../components/SignalStatus";
 import TrafficMap from "../components/TrafficMap";
+import RoadClosures from "../components/RoadClosures";
+import RouteRecommendation from "../components/RouteRecommendation";
+import TrafficIncidents from "../components/TrafficIncidents";
+
+
+
 function Traffic() {
   return (
     <section id="traffic" className="traffic-page">
@@ -21,16 +27,11 @@ function Traffic() {
     <SignalStatus />
 
 </div>
-
-      {/* Next we'll add:
-          - Traffic Map
-          - Congestion Chart
-          - Signal Status
-          - Road Closures
-          - AI Route Recommendation
-          - Traffic Incidents
-      */}
-
+<div className="traffic-grid bottom-grid">
+  <RoadClosures />
+  <RouteRecommendation />
+</div>
+<TrafficIncidents />
     </section>
   );
 }
