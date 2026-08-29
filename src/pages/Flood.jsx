@@ -3,7 +3,8 @@ import { useState } from "react";
 import FloodHeader from "../components/FloodHeader";
 import FloodStats from "../components/FloodStats";
 import FloodMap from "../components/FloodMap";
-
+import FloodChart from "../components/FloodChart";
+import RiskAreas from "../components/RiskAreas";
 import "../styles/flood.css";
 
 function Flood() {
@@ -30,6 +31,11 @@ function Flood() {
 
       {/* Show map only when button is clicked */}
       {showMap && <FloodMap />}
+
+      <div className="flood-grid">
+        <FloodChart />
+        <RiskAreas />
+      </div>
 
     </section>
   );
