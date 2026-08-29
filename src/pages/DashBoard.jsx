@@ -53,8 +53,13 @@ function DashBoard()
 
         <button
             className={active === "Flood" ? "active" : ""}
-            onClick={() => setActive("Flood")}
-        >
+            onClick={() => {
+            setActive("Flood");
+            document.getElementById("flood").scrollIntoView({
+            behavior: "smooth"
+            });
+            }}
+            >
             Flood
         </button>
 
