@@ -6,7 +6,8 @@ import FloodMap from "../components/FloodMap";
 import FloodChart from "../components/FloodChart";
 import RiskAreas from "../components/RiskAreas";
 import "../styles/flood.css";
-
+import FloodPrediction from "../components/FloodPrediction";
+import FloodAlerts from "../components/FloodAlerts";
 function Flood() {
   const [showMap, setShowMap] = useState(false);
 
@@ -35,6 +36,9 @@ function Flood() {
       <div className="flood-grid">
         <FloodChart />
         <RiskAreas />
+        <FloodPrediction />
+        
+        <FloodAlerts />
       </div>
 
     </section>
