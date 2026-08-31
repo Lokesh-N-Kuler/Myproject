@@ -10,6 +10,7 @@ import RecentAlerts from "./components/RecentAlerts";
 import Traffic from './pages/Traffic.jsx';
 import Vnavbar from './pages/Vnavbar.jsx';
 import Flood from "./pages/Flood.jsx";
+import Pollution from "./pages/Pollution";
 
 function App() {
 
@@ -48,6 +49,9 @@ function App() {
           
         </div>
         <Flood />
+        <Pollution />
+
+        
         <div id="fixednav">
           <Vnavbar/>
         </div>

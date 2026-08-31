@@ -1,0 +1,81 @@
+.pollution-page {
+  padding: 40px 30px;
+  background-color: rgba(13, 13, 25, 0.983);
+  min-height: 100vh;
+  margin-top: 10px;
+}
+
+/* Header */
+
+.pollution-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.pollution-header h1 {
+  margin: 0;
+  font-size: 30px;
+  color: white;
+}
+
+.pollution-header p {
+  margin-top: 8px;
+  color: whitesmoke;
+}
+
+.pollution-live-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: green;
+  font-weight: 600;
+}
+
+.pollution-live-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: red;
+}
+
+/* Statistics */
+
+.pollution-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.pollution-stat-card {
+  background: black;
+  padding: 22px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.pollution-stat-title {
+  margin: 0;
+  color: #f8f9fa;
+  font-size: 14px;
+}
+
+.pollution-stat-value {
+  margin: 12px 0 6px;
+  font-size: 27px;
+}
+
+.pollution-stat-subtitle {
+  margin: 0;
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+.warning {
+  color: #d97706;
+}
+
+.danger {
+  color: #dc2626;
+}

@@ -64,9 +64,14 @@ function DashBoard()
         </button>
 
         <button
-            className={active === "Pollution" ? "active" : ""}
-            onClick={() => setActive("Pollution")}
-        >
+             className={active === "Pollution" ? "active" : ""}
+            onClick={() => {
+            setActive("Pollution");
+            document.getElementById("pollution").scrollIntoView({
+            behavior: "smooth"
+            });
+            }}
+            >
             Pollution
         </button>
 
