@@ -4,7 +4,7 @@ import PollutionAQIChart from "../components/PollutionAQIChart";
 import PollutantLevels from "../components/PollutantLevels";
 import MostPollutedAreas from "../components/MostPollutedAreas";
 import "../styles/pollution.css";
-
+import AIPollutionAnalysis from "../components/AIPollutionAnalysis";
 function Pollution() {
   return (
     <section id="pollution" className="pollution-page">
@@ -17,6 +17,7 @@ function Pollution() {
         <PollutantLevels />
       </div>
       <MostPollutedAreas />
+      <AIPollutionAnalysis />
     </section>
   );
 }

@@ -304,3 +304,126 @@
   font-size: 11px;
   color: #c9ced7;
 }
+/* AI Pollution Analysis */
+
+.ai-pollution-card {
+  margin-top: 30px;
+  background-color: rgba(7, 7, 12, 0.983);  padding: 22px;
+  padding: 24px;
+  border: solid 1px white;
+  border-radius: 15px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.ai-pollution-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.ai-pollution-header h2 {
+  margin: 0;
+  color: #f5f7fa;
+}
+
+.ai-pollution-header p {
+  margin-top: 6px;
+  color: #d6dae3;
+  font-size: 14px;
+}
+
+.ai-analysis-badge {
+  background: #dbeafe;
+  color: #2563eb;
+  padding: 7px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.ai-pollution-content {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 35px;
+  margin-top: 25px;
+}
+
+.analysis-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #dc8016;
+}
+
+.pollution-prediction h3 {
+  font-size: 25px;
+  margin: 8px 0;
+  color: #dae1eb;
+}
+
+.analysis-text {
+  color: #d6dae3;
+  line-height: 1.6;
+}
+
+.prediction-stats {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.prediction-stat {
+  flex: 1;
+  padding: 15px;
+  background: black;
+  border-radius: 10px;
+}
+
+.prediction-stat span {
+  display: block;
+  font-size: 12px;
+  color: white;
+  margin-bottom: 8px;
+}
+
+.prediction-stat strong {
+  font-size: 18px;
+  color: #126baf;
+}
+
+.prediction-stat .high-risk {
+  color: #e91010;
+}
+
+.pollution-recommendations {
+  padding: 20px;
+background-color: rgba(0, 0, 0, 0.983);
+  border-radius: 12px;
+  border: solid 1px white;
+}
+
+.pollution-recommendations h3 {
+  margin-top: 0;
+  color: #dd2b08;
+}
+
+.pollution-recommendations ul {
+  padding-left: 20px;
+  color: #b1bd06;
+  line-height: 2;
+}
+
+.pollution-action-btn {
+  border: none;
+  background: #2563eb;
+  color: white;
+  padding: 11px 16px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.pollution-action-btn:hover {
+  background: #1d4ed8;
+}
