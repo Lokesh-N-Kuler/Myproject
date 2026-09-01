@@ -72,10 +72,17 @@ function Vnavbar(){
 
         <button
             className={active === "Analytics" ? "active" : ""}
-            onClick={() => setActive("Analytics")}
-        >
+            onClick={() => {
+            setActive("Analytics");
+
+            document.getElementById("analytics").scrollIntoView({
+            behavior: "smooth",
+            });
+            }}
+            >
             Analytics
         </button>
+
 
         <button
             className={active === "AI Assistant" ? "active" : ""}

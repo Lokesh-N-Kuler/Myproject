@@ -12,6 +12,7 @@ import Vnavbar from './pages/Vnavbar.jsx';
 import Flood from "./pages/Flood.jsx";
 import Pollution from "./pages/Pollution";
 import Emergency from "./pages/Emergency";
+import Analytics from "./pages/Analytics";
 
 function App() {
 
@@ -53,6 +54,8 @@ function App() {
         <Pollution />
         <Emergency />
         
+        <Analytics />
+
         <div id="fixednav">
           <Vnavbar/>
         </div>

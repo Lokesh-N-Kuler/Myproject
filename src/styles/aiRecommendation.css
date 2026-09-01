@@ -15,14 +15,14 @@
 */
 .ai-card{
     
-    background-color: rgb(13, 13, 25);
+    background-color: rgb(0, 0, 0);
     border-radius:12px;
     padding:15px;
     margin-top:20px;
     box-shadow:0 0 5px white;
     position: absolute;
     margin-left: 680px;
-    margin-top:  -492px;; 
+    margin-top:  -472px;; 
     height: 450px;
 }
 
@@ -31,6 +31,13 @@
     justify-content:space-between;
     align-items:center;
     margin-bottom:15px;
+    color: rgb(246, 244, 244);
+}
+.tp{
+    color: red;
+}
+h3{
+    color:rgb(246, 243, 241);
 }
 
 .status{
@@ -50,7 +57,7 @@
 }
 
 .recommendation p{
-    color:#555;
+    color:#a6da0a;
 }
 
 .recommendation ul{
