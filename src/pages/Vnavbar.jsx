@@ -59,8 +59,14 @@ function Vnavbar(){
 
         <button
             className={active === "Emergency" ? "active" : ""}
-            onClick={() => setActive("Emergency")}
-        >
+            onClick={() => {
+            setActive("Emergency");
+
+            document.getElementById("emergency").scrollIntoView({
+            behavior: "smooth",
+            });
+            }}
+            >
             Emergency
         </button>
 

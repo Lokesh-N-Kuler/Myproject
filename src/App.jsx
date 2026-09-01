@@ -11,6 +11,7 @@ import Traffic from './pages/Traffic.jsx';
 import Vnavbar from './pages/Vnavbar.jsx';
 import Flood from "./pages/Flood.jsx";
 import Pollution from "./pages/Pollution";
+import Emergency from "./pages/Emergency";
 
 function App() {
 
@@ -31,7 +32,7 @@ function App() {
          <AQIchart/>
         </div>
         </div>
-  n
+  
         <div className="Aicard">
         <AIRecommendation />
         </div>
@@ -50,7 +51,7 @@ function App() {
         </div>
         <Flood />
         <Pollution />
-
+        <Emergency />
         
         <div id="fixednav">
           <Vnavbar/>
