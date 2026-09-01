@@ -427,3 +427,143 @@ background-color: rgba(0, 0, 0, 0.983);
 .pollution-action-btn:hover {
   background: #1d4ed8;
 }
+/* Air Quality Alerts */
+
+.air-alerts-card {
+  margin-top: 30px;
+  background: black;
+  border: solid 1px white;
+  padding: 24px;
+  border-radius: 15px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.air-alerts-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.air-alerts-header h2 {
+  margin: 0;
+  color: #f3f4f5;
+  font-size: 21px;
+}
+
+.air-alerts-header p {
+  margin-top: 6px;
+  color: #e0e3e9;
+  font-size: 14px;
+}
+
+.air-alert-live {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: green;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.air-live-dot {
+  width: 9px;
+  height: 9px;
+  background: red;
+  border-radius: 50%;
+}
+
+.air-alert-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.air-alert-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 20px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.air-alert-row:last-child {
+  border-bottom: none;
+}
+
+.air-alert-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #de0707d1;
+  border-radius: 10px;
+  font-size: 20px;
+}
+
+.air-alert-info {
+  flex: 1;
+}
+
+.air-alert-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.air-alert-title h4 {
+  margin: 0;
+  color: #fcfdfe;
+}
+
+.air-alert-info p {
+  margin: 7px 0 0;
+  color: #97d80a;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.air-alert-level {
+  padding: 4px 9px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.air-alert-level.critical {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.air-alert-level.high {
+  background: #ffedd5;
+  color: #ea580c;
+}
+
+.air-alert-level.moderate {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.air-alert-time {
+  font-size: 12px;
+  color: #d6ddea;
+  white-space: nowrap;
+}
+
+.view-all-alerts-btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #2563eb;
+  background: white;
+  color: #2563eb;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.view-all-alerts-btn:hover {
+  background: #eff6ff;
+}
