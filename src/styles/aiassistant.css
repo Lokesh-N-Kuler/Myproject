@@ -1,0 +1,276 @@
+.ai-assistant-page {
+    padding: 40px 30px;
+    background-color: rgba(13, 13, 25, 0.983);
+    min-height: 100vh;
+    margin-top: 10px;
+}
+
+/* HEADER */
+
+.ai-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.ai-header h1 {
+  margin: 0;
+  color: #1f2937;
+  font-size: 30px;
+}
+
+.ai-header p {
+  margin-top: 8px;
+  color: #6b7280;
+}
+
+.ai-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #16a34a;
+}
+
+.ai-status-dot {
+  width: 10px;
+  height: 10px;
+  background: #16a34a;
+  border-radius: 50%;
+}
+
+/* STATUS CARDS */
+
+.ai-status-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.ai-status-card {
+  background: white;
+  padding: 22px;
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.ai-status-card p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.ai-status-card h3 {
+  margin: 12px 0 6px;
+  font-size: 22px;
+}
+
+.ai-status-card span {
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+.blue {
+  color: #2563eb;
+}
+
+.green {
+  color: #16a34a;
+}
+
+.orange {
+  color: #f59e0b;
+}
+
+.red {
+  color: #dc2626;
+}
+
+/* MAIN SECTION */
+
+.ai-main-section {
+  display: grid;
+  grid-template-columns: 0.8fr 1.5fr;
+  gap: 25px;
+  margin-top: 30px;
+}
+
+/* SUGGESTED QUESTIONS */
+
+.suggested-card {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.suggested-card h2 {
+  margin: 0;
+  color: #1f2937;
+}
+
+.suggested-card p {
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.question-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.question-button {
+  text-align: left;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  padding: 13px;
+  border-radius: 8px;
+  color: #374151;
+  cursor: pointer;
+}
+
+.question-button:hover {
+  border-color: #2563eb;
+  background: #eff6ff;
+}
+
+/* CHAT */
+
+.chat-card {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.chat-ai-icon {
+  width: 42px;
+  height: 42px;
+  background: #2563eb;
+  color: white;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+}
+
+.chat-header h2 {
+  margin: 0;
+  color: #1f2937;
+  font-size: 18px;
+}
+
+.chat-header span {
+  color: #16a34a;
+  font-size: 12px;
+}
+
+.chat-messages {
+  height: 400px;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: #f8fafc;
+}
+
+.message {
+  max-width: 75%;
+  padding: 12px 15px;
+  border-radius: 12px;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.ai-message {
+  background: white;
+  color: #374151;
+  align-self: flex-start;
+  border: 1px solid #e5e7eb;
+}
+
+.user-message {
+  background: #2563eb;
+  color: white;
+  align-self: flex-end;
+}
+
+.chat-input-area {
+  display: flex;
+  gap: 10px;
+  padding: 15px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.chat-input-area input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  outline: none;
+}
+
+.chat-input-area input:focus {
+  border-color: #2563eb;
+}
+
+.chat-input-area button {
+  border: none;
+  background: #2563eb;
+  color: white;
+  padding: 0 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.chat-input-area button:hover {
+  background: #1d4ed8;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+  .ai-status-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ai-main-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .ai-assistant-page {
+    padding: 25px 15px;
+  }
+
+  .ai-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .ai-status-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .message {
+    max-width: 90%;
+  }
+}

@@ -13,6 +13,7 @@ import Flood from "./pages/Flood.jsx";
 import Pollution from "./pages/Pollution";
 import Emergency from "./pages/Emergency";
 import Analytics from "./pages/Analytics";
+import AIAssistant from "./pages/AIAssistant";
 
 function App() {
 
@@ -50,11 +51,16 @@ function App() {
           <Traffic />
           
         </div>
+        
         <Flood />
+
         <Pollution />
+
         <Emergency />
         
         <Analytics />
+
+        <AIAssistant />
 
         <div id="fixednav">
           <Vnavbar/>

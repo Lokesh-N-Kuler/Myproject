@@ -103,8 +103,16 @@ function DashBoard()
 
         <button
             className={active === "AI Assistant" ? "active" : ""}
-            onClick={() => setActive("AI Assistant")}
-        >
+            onClick={() => {
+            setActive("AI Assistant");
+
+            document
+            .getElementById("ai-assistant")
+            .scrollIntoView({
+            behavior: "smooth",
+            });
+            }}
+>
             AI Assistant
         </button>
 
