@@ -8,6 +8,10 @@ from routes.emergency import router as emergency_router
 from routes.weather import router as weather_router
 from routes.analytics import router as analytics_router
 from routes.dashboard import router as dashboard_router
+from routes.ai import router as ai_router
+
+
+
 app = FastAPI(
     title="City Pilot AI Backend",
     version="1.0.0"
@@ -33,6 +37,8 @@ app.include_router(emergency_router)
 app.include_router(weather_router)
 app.include_router(analytics_router)
 app.include_router(dashboard_router)
+app.include_router(ai_router)
+
 
 @app.get("/")
 def home():

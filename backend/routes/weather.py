@@ -35,3 +35,31 @@ def get_weather():
             }
         ]
     }
+from fastapi import APIRouter
+
+router = APIRouter(
+    prefix="/api/weather",
+    tags=["Weather"]
+)
+
+
+@router.get("/")
+def get_weather():
+    return {
+        "name": "Bengaluru",
+
+        "main": {
+            "temp": 26,
+            "humidity": 68
+        },
+
+        "weather": [
+            {
+                "main": "Cloudy"
+            }
+        ],
+
+        "wind": {
+            "speed": 12
+        }
+    }
