@@ -1,21 +1,11 @@
 export async function getTraffic() {
+  const response = await fetch("http://127.0.0.1:8000/api/traffic/");
 
-    return [
+  if (!response.ok) {
+    throw new Error("Failed to fetch traffic data");
+  }
 
-        { time: "08:00", vehicles: 180 },
+  const data = await response.json();
 
-        { time: "09:00", vehicles: 250 },
-
-        { time: "10:00", vehicles: 310 },
-
-        { time: "11:00", vehicles: 450 },
-
-        { time: "12:00", vehicles: 390 },
-
-        { time: "13:00", vehicles: 520 },
-
-        { time: "14:00", vehicles: 610 }
-
-    ];
-
+  return data.chart_data;
 }

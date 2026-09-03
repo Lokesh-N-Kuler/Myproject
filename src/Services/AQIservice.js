@@ -1,13 +1,11 @@
 export async function getAQI() {
+  const response = await fetch(
+    "http://127.0.0.1:8000/api/pollution/"
+  );
 
-  return [
-    { time: "08:00", aqi: 72 },
-    { time: "09:00", aqi: 78 },
-    { time: "10:00", aqi: 85 },
-    { time: "11:00", aqi: 95 },
-    { time: "12:00", aqi: 110 },
-    { time: "13:00", aqi: 104 },
-    { time: "14:00", aqi: 98 }
-  ];
+  if (!response.ok) {
+    throw new Error("Failed to fetch AQI data");
+  }
 
+  return response.json();
 }
