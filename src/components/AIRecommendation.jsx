@@ -13,7 +13,7 @@ function AIRecommendation() {
 
       <div className="recommendation">
 
-        <h3 class="tp">Traffic Prediction</h3>
+        <h3 className="tp">Traffic Prediction</h3>
 
         <p>
           Heavy congestion is predicted near <b>MG Road</b>

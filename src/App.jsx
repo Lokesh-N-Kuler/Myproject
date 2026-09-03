@@ -44,7 +44,7 @@ function App() {
         <StatCard/>
         
         </div>
-        <navbar/>
+        
         <RecentAlerts />
         
         <div id="traffic">
