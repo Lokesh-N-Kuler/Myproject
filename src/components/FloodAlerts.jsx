@@ -1,24 +1,24 @@
-import { useEffect, useState } from "react";
-import { getFloodData } from "../Services/FloodService";
-
 function FloodAlerts() {
-  const [alerts, setAlerts] = useState([]);
-  const [emergencyStatus, setEmergencyStatus] = useState(null);
-
-  useEffect(() => {
-    async function loadFloodAlerts() {
-      try {
-        const data = await getFloodData();
-
-        setAlerts(data.alerts);
-        setEmergencyStatus(data.emergencyStatus);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    loadFloodAlerts();
-  }, []);
+  const alerts = [
+    {
+      area: "Bellandur",
+      message: "Water level is rising rapidly. Emergency monitoring activated.",
+      level: "Critical",
+      time: "5 min ago",
+    },
+    {
+      area: "Koramangala",
+      message: "Heavy rainfall detected. Possible waterlogging in low-lying areas.",
+      level: "High",
+      time: "12 min ago",
+    },
+    {
+      area: "HSR Layout",
+      message: "Drainage capacity is being monitored due to continuous rainfall.",
+      level: "Medium",
+      time: "25 min ago",
+    },
+  ];
 
   return (
     <div className="flood-alerts-card">
@@ -64,14 +64,8 @@ function FloodAlerts() {
 
       <div className="emergency-status">
         <div>
-          <h3>
-            {emergencyStatus?.title || "Emergency Response Status"}
-          </h3>
-
-          <p>
-            {emergencyStatus?.message ||
-              "Loading emergency status..."}
-          </p>
+          <h3>Emergency Response Status</h3>
+          <p>Response teams are currently monitoring high-risk zones.</p>
         </div>
 
         <button className="emergency-btn">

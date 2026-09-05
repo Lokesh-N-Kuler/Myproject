@@ -1,21 +1,21 @@
-import { useEffect, useState } from "react";
-import { getEmergencyData } from "../Services/EmergencyService";
-
 function EmergencyAlerts() {
-  const [alerts, setAlerts] = useState([]);
-
-  useEffect(() => {
-    async function loadAlerts() {
-      try {
-        const data = await getEmergencyData();
-        setAlerts(data.alerts);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    loadAlerts();
-  }, []);
+  const alerts = [
+    {
+      message: "Emergency response team dispatched to Bellandur.",
+      type: "critical",
+      time: "5 min ago",
+    },
+    {
+      message: "Traffic diversion activated near Silk Board Junction.",
+      type: "warning",
+      time: "14 min ago",
+    },
+    {
+      message: "Fire emergency successfully contained in Electronic City.",
+      type: "success",
+      time: "32 min ago",
+    },
+  ];
 
   return (
     <div className="emergency-alerts-card">
