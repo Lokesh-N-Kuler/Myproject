@@ -1,41 +1,96 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
+import httpx
 
 router = APIRouter(
     prefix="/api/flood",
     tags=["Flood"]
 )
 
+LATITUDE = 12.9716
+LONGITUDE = 77.5946
+
+
+def calculate_flood_risk(rainfall):
+    if rainfall >= 50:
+        return "High", 80
+    elif rainfall >= 25:
+        return "Moderate", 55
+    elif rainfall >= 10:
+        return "Low", 30
+    else:
+        return "Very Low", 10
+
 
 @router.get("/")
-def get_flood_data():
-    return {
-        "risk_level": "Low",
-        "risk_score": 28,
-        "affected_areas": 3,
-        "water_level": 42,
-        "rainfall": 12.5,
+async def get_flood_data():
 
-        "risk_areas": [
-            {
-                "name": "Koramangala",
-                "risk": "Moderate"
-            },
-            {
-                "name": "HSR Layout",
-                "risk": "Low"
-            },
-            {
-                "name": "Bellandur",
-                "risk": "High"
-            }
-        ],
+    url = "https://api.open-meteo.com/v1/forecast"
 
-        "chart_data": [
-            {"time": "08:00", "water_level": 25},
-            {"time": "10:00", "water_level": 32},
-            {"time": "12:00", "water_level": 45},
-            {"time": "14:00", "water_level": 58},
-            {"time": "16:00", "water_level": 48},
-            {"time": "18:00", "water_level": 42}
-        ]
+    params = {
+        "latitude": LATITUDE,
+        "longitude": LONGITUDE,
+        "current": "rain,precipitation",
+        "hourly": "precipitation,rain",
+        "forecast_days": 1,
+        "timezone": "Asia/Kolkata"
     }
+
+    try:
+        async with httpx.AsyncClient(timeout=10) as client:
+            response = await client.get(url, params=params)
+
+        response.raise_for_status()
+
+        data = response.json()
+
+        current = data.get("current", {})
+        hourly = data.get("hourly", {})
+
+        rainfall = float(current.get("precipitation", 0) or 0)
+
+        risk_level, risk_score = calculate_flood_risk(rainfall)
+
+        chart_data = []
+
+        times = hourly.get("time", [])
+        rainfall_values = hourly.get("precipitation", [])
+
+        for time, value in zip(times, rainfall_values):
+
+            if value is None:
+                continue
+
+            chart_data.append({
+    "time": time,
+    "rainfall": float(value)
+})
+
+        return {
+            "location": "Bengaluru",
+
+            "risk_level": risk_level,
+
+            "riskLevel": risk_level,
+
+            "risk_score": risk_score,
+
+            "affected_areas": 0,
+
+            "water_level": 0,
+
+            "rainfall": rainfall,
+
+            "risk_areas": [],
+
+            "chart_data": chart_data,
+
+            "updatedAt": current.get("time")
+        }
+
+    except httpx.HTTPError as error:
+
+        raise HTTPException(
+            status_code=502,
+            detail=f"Weather service unavailable: {error}"
+        )
+
