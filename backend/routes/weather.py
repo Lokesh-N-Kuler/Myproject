@@ -1,65 +1,58 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
+import httpx
 
 router = APIRouter(
     prefix="/api/weather",
     tags=["Weather"]
 )
 
+# Bengaluru coordinates
+LATITUDE = 12.9716
+LONGITUDE = 77.5946
+
 
 @router.get("/")
-def get_weather():
-    return {
-        "city": "Bengaluru",
-        "temperature": 26,
-        "feels_like": 27,
-        "humidity": 68,
-        "condition": "Cloudy",
-        "wind_speed": 12,
-        "rainfall": 2.4,
+async def get_weather():
+    url = "https://api.open-meteo.com/v1/forecast"
 
-        "forecast": [
-            {
-                "day": "Today",
-                "temperature": 26,
-                "condition": "Cloudy"
-            },
-            {
-                "day": "Tomorrow",
-                "temperature": 27,
-                "condition": "Partly Cloudy"
-            },
-            {
-                "day": "Day 3",
-                "temperature": 25,
-                "condition": "Rain"
-            }
-        ]
+    params = {
+        "latitude": LATITUDE,
+        "longitude": LONGITUDE,
+        "current": ",".join([
+            "temperature_2m",
+            "relative_humidity_2m",
+            "apparent_temperature",
+            "weather_code",
+            "wind_speed_10m"
+        ]),
+        "timezone": "Asia/Kolkata"
     }
-from fastapi import APIRouter
 
-router = APIRouter(
-    prefix="/api/weather",
-    tags=["Weather"]
-)
+    try:
+        async with httpx.AsyncClient(timeout=10) as client:
+            response = await client.get(url, params=params)
 
+        response.raise_for_status()
+        data = response.json()
 
-@router.get("/")
-def get_weather():
-    return {
-        "name": "Bengaluru",
+        current = data["current"]
 
-        "main": {
-            "temp": 26,
-            "humidity": 68
-        },
-
-        "weather": [
-            {
-                "main": "Cloudy"
+        return {
+            "location": "Bengaluru",
+            "temperature": current["temperature_2m"],
+            "feelsLike": current["apparent_temperature"],
+            "humidity": current["relative_humidity_2m"],
+            "windSpeed": current["wind_speed_10m"],
+            "weatherCode": current["weather_code"],
+            "updatedAt": current["time"],
+            "unit": {
+                "temperature": "°C",
+                "windSpeed": "km/h"
             }
-        ],
-
-        "wind": {
-            "speed": 12
         }
-    }
+
+    except httpx.HTTPError as error:
+        raise HTTPException(
+            status_code=502,
+            detail=f"Weather service unavailable: {error}"
+        )
