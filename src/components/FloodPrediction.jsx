@@ -1,4 +1,26 @@
+import { useEffect, useState } from "react";
+import { getFloodData } from "../Services/FloodService";
+
 function FloodPrediction() {
+  const [prediction, setPrediction] = useState(null);
+
+  useEffect(() => {
+    async function loadFloodPrediction() {
+      try {
+        const data = await getFloodData();
+        setPrediction(data.prediction);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    loadFloodPrediction();
+  }, []);
+
+  if (!prediction) {
+    return <div className="flood-prediction-card">Loading...</div>;
+  }
+
   return (
     <div className="flood-prediction-card">
 
@@ -16,28 +38,31 @@ function FloodPrediction() {
         <div className="prediction-main">
           <p className="prediction-label">PREDICTED HIGH-RISK AREA</p>
 
-          <h3>Bellandur</h3>
+          <h3>{prediction.area}</h3>
 
           <p className="prediction-text">
-            Current rainfall and water-level trends indicate a high
-            probability of flooding in the next few hours.
+            {prediction.description}
           </p>
 
           <div className="prediction-details">
 
             <div className="prediction-item">
               <span>Flood Probability</span>
-              <strong className="danger-text">82%</strong>
+              <strong className="danger-text">
+                {prediction.probability}
+              </strong>
             </div>
 
             <div className="prediction-item">
               <span>Expected Time</span>
-              <strong>2–4 hours</strong>
+              <strong>{prediction.expectedTime}</strong>
             </div>
 
             <div className="prediction-item">
               <span>Risk Level</span>
-              <strong className="high-risk-text">HIGH</strong>
+              <strong className="high-risk-text">
+                {prediction.riskLevel}
+              </strong>
             </div>
 
           </div>
@@ -48,10 +73,9 @@ function FloodPrediction() {
           <h3>Recommended Actions</h3>
 
           <ul>
-            <li>Deploy emergency response teams.</li>
-            <li>Alert residents in nearby areas.</li>
-            <li>Monitor drainage and water levels.</li>
-            <li>Prepare alternate traffic routes.</li>
+            {prediction.recommendations.map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
           </ul>
 
           <button className="action-btn">

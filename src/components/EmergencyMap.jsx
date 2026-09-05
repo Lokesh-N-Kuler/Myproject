@@ -1,4 +1,22 @@
+import { useEffect, useState } from "react";
+import { getEmergencyData } from "../Services/EmergencyService";
+
 function EmergencyMap() {
+  const [mapPoints, setMapPoints] = useState([]);
+
+  useEffect(() => {
+    async function loadMapData() {
+      try {
+        const data = await getEmergencyData();
+        setMapPoints(data.mapPoints);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    loadMapData();
+  }, []);
+
   return (
     <div className="emergency-map-card">
       <div className="emergency-card-header">
@@ -9,26 +27,21 @@ function EmergencyMap() {
       </div>
 
       <div className="emergency-map">
-        <div className="map-point critical-point point-one">
-           Bellandur
-        </div>
 
-        <div className="map-point high-point point-two">
-          ⚠ Silk Board
-        </div>
-
-        <div className="map-point team-point point-three">
-           Response Team
-        </div>
-
-        <div className="map-point high-point point-four">
-           Electronic City
-        </div>
+        {mapPoints.map((point, index) => (
+          <div
+            key={index}
+            className={`map-point ${point.type}-point ${point.position}`}
+          >
+            {point.label}
+          </div>
+        ))}
 
         <div className="emergency-map-center">
           <h3>Live Emergency Map</h3>
           <p>Incident & response monitoring</p>
         </div>
+
       </div>
     </div>
   );

@@ -1,6 +1,23 @@
+import { useEffect, useState } from "react";
 import "../styles/flood.css";
+import { getFloodData } from "../Services/FloodService";
 
 function FloodMap() {
+  const [locations, setLocations] = useState([]);
+
+  useEffect(() => {
+    async function loadFloodMap() {
+      try {
+        const data = await getFloodData();
+        setLocations(data.mapLocations);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    loadFloodMap();
+  }, []);
+
   return (
     <div className="flood-map-card">
 
@@ -29,33 +46,17 @@ function FloodMap() {
       </div>
 
       <div className="flood-map">
-
         <div className="map-background">
 
-          <div className="flood-location high-location">
-            <span className="location-dot"></span>
-            <p>Koramangala</p>
-          </div>
-
-          <div className="flood-location medium-location">
-            <span className="location-dot"></span>
-            <p>HSR Layout</p>
-          </div>
-
-          <div className="flood-location safe-location">
-            <span className="location-dot"></span>
-            <p>Indiranagar</p>
-          </div>
-
-          <div className="flood-location high-location location-two">
-            <span className="location-dot"></span>
-            <p>Bellandur</p>
-          </div>
-
-          <div className="flood-location medium-location location-three">
-            <span className="location-dot"></span>
-            <p>Whitefield</p>
-          </div>
+          {locations.map((location, index) => (
+            <div
+              key={index}
+              className={`flood-location ${location.risk}-location ${location.position}`}
+            >
+              <span className="location-dot"></span>
+              <p>{location.name}</p>
+            </div>
+          ))}
 
           <div className="map-center-text">
             <h3>Live Flood Monitoring</h3>
@@ -63,7 +64,6 @@ function FloodMap() {
           </div>
 
         </div>
-
       </div>
 
     </div>

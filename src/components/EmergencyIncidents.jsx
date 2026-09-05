@@ -1,30 +1,21 @@
+import { useEffect, useState } from "react";
+import { getEmergencyData } from "../Services/EmergencyService";
+
 function EmergencyIncidents() {
-  const incidents = [
-    {
-      title: "Severe Waterlogging",
-      location: "Bellandur",
-      level: "Critical",
-      time: "5 min ago",
-    },
-    {
-      title: "Major Traffic Accident",
-      location: "Silk Board Junction",
-      level: "High",
-      time: "12 min ago",
-    },
-    {
-      title: "Fire Emergency",
-      location: "Electronic City",
-      level: "High",
-      time: "18 min ago",
-    },
-    {
-      title: "Road Blockage",
-      location: "Whitefield",
-      level: "Medium",
-      time: "25 min ago",
-    },
-  ];
+  const [incidents, setIncidents] = useState([]);
+
+  useEffect(() => {
+    async function loadIncidents() {
+      try {
+        const data = await getEmergencyData();
+        setIncidents(data.incidents);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    loadIncidents();
+  }, []);
 
   return (
     <div className="incidents-card">

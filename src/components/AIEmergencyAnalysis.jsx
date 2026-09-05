@@ -1,4 +1,30 @@
+import { useEffect, useState } from "react";
+import { getEmergencyData } from "../Services/EmergencyService";
+
 function AIEmergencyAnalysis() {
+  const [analysis, setAnalysis] = useState(null);
+
+  useEffect(() => {
+    async function loadAnalysis() {
+      try {
+        const data = await getEmergencyData();
+        setAnalysis(data.aiAnalysis);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    loadAnalysis();
+  }, []);
+
+  if (!analysis) {
+    return (
+      <div className="ai-emergency-card">
+        Loading AI analysis...
+      </div>
+    );
+  }
+
   return (
     <div className="ai-emergency-card">
 
@@ -20,27 +46,26 @@ function AIEmergencyAnalysis() {
             HIGHEST PRIORITY INCIDENT
           </p>
 
-          <h3>Severe Waterlogging — Bellandur</h3>
+          <h3>{analysis.incident}</h3>
 
-          <p>
-            AI analysis suggests deploying additional emergency teams
-            due to rapidly increasing water levels and traffic disruption.
-          </p>
+          <p>{analysis.description}</p>
 
           <div className="priority-stats">
             <div>
               <span>Priority Score</span>
-              <strong className="priority-red">96%</strong>
+              <strong className="priority-red">
+                {analysis.priorityScore}
+              </strong>
             </div>
 
             <div>
               <span>People Affected</span>
-              <strong>2,400+</strong>
+              <strong>{analysis.peopleAffected}</strong>
             </div>
 
             <div>
               <span>Recommended Teams</span>
-              <strong>4 Teams</strong>
+              <strong>{analysis.recommendedTeams}</strong>
             </div>
           </div>
         </div>
@@ -49,10 +74,9 @@ function AIEmergencyAnalysis() {
           <h3>Recommended Actions</h3>
 
           <ul>
-            <li>Deploy additional rescue teams immediately.</li>
-            <li>Redirect traffic from affected roads.</li>
-            <li>Send alerts to nearby residents.</li>
-            <li>Activate temporary emergency shelters.</li>
+            {analysis.actions.map((action, index) => (
+              <li key={index}>{action}</li>
+            ))}
           </ul>
 
           <button>

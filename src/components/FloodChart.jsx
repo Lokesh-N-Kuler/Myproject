@@ -8,15 +8,24 @@ import {
   Legend,
 } from "recharts";
 
+import { useEffect, useState } from "react";
+import { getFloodData } from "../Services/FloodService";
+
 function FloodChart() {
-  const data = [
-    { time: "6 AM", rainfall: 12, waterLevel: 2.1 },
-    { time: "9 AM", rainfall: 18, waterLevel: 2.4 },
-    { time: "12 PM", rainfall: 32, waterLevel: 2.9 },
-    { time: "3 PM", rainfall: 42, waterLevel: 3.8 },
-    { time: "6 PM", rainfall: 28, waterLevel: 3.3 },
-    { time: "9 PM", rainfall: 15, waterLevel: 2.7 },
-  ];
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    async function loadFloodData() {
+      try {
+        const floodData = await getFloodData();
+        setData(floodData.chart);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    loadFloodData();
+  }, []);
 
   return (
     <div className="flood-chart-card">

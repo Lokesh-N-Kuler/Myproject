@@ -1,26 +1,21 @@
+import { useEffect, useState } from "react";
+import { getEmergencyData } from "../services/EmergencyService";
+
 function ResponseTeams() {
-  const teams = [
-    {
-      name: "Fire & Rescue Team",
-      available: "6 teams active",
-      status: "active",
-    },
-    {
-      name: "Medical Response",
-      available: "8 teams active",
-      status: "active",
-    },
-    {
-      name: "Police Units",
-      available: "10 units active",
-      status: "active",
-    },
-    {
-      name: "Disaster Response",
-      available: "4 teams standby",
-      status: "standby",
-    },
-  ];
+  const [teams, setTeams] = useState([]);
+
+  useEffect(() => {
+    async function loadTeams() {
+      try {
+        const data = await getEmergencyData();
+        setTeams(data.responseTeams);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    loadTeams();
+  }, []);
 
   return (
     <div className="response-teams-card">

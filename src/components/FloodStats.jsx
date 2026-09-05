@@ -1,30 +1,47 @@
+import { useEffect, useState } from "react";
+import { getFloodData } from "../services/FloodService";
+
 function FloodStats() {
-  const stats = [
-    {
-      title: "High Risk Areas",
-      value: "08",
-      subtitle: "Areas need attention",
-      type: "danger",
-    },
-    {
-      title: "Rainfall",
-      value: "42 mm",
-      subtitle: "Last 24 hours",
-      type: "blue",
-    },
-    {
-      title: "Water Level",
-      value: "3.8 m",
-      subtitle: "Average river level",
-      type: "warning",
-    },
-    {
-      title: "Active Alerts",
-      value: "05",
-      subtitle: "Emergency notifications",
-      type: "danger",
-    },
-  ];
+  const [stats, setStats] = useState([]);
+
+  useEffect(() => {
+    async function loadFloodData() {
+      try {
+        const data = await getFloodData();
+
+        setStats([
+          {
+            title: "High Risk Areas",
+            value: data.stats.highRiskAreas,
+            subtitle: "Areas need attention",
+            type: "danger",
+          },
+          {
+            title: "Rainfall",
+            value: data.stats.rainfall,
+            subtitle: "Last 24 hours",
+            type: "blue",
+          },
+          {
+            title: "Water Level",
+            value: data.stats.waterLevel,
+            subtitle: "Average river level",
+            type: "warning",
+          },
+          {
+            title: "Active Alerts",
+            value: data.stats.activeAlerts,
+            subtitle: "Emergency notifications",
+            type: "danger",
+          },
+        ]);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    loadFloodData();
+  }, []);
 
   return (
     <div className="flood-stats">

@@ -1,30 +1,47 @@
+import { useEffect, useState } from "react";
+import { getEmergencyData } from "../services/EmergencyService";
+
 function EmergencyStats() {
-  const stats = [
-    {
-      title: "Active Incidents",
-      value: "12",
-      subtitle: "Currently being monitored",
-      type: "red",
-    },
-    {
-      title: "Critical Alerts",
-      value: "03",
-      subtitle: "Immediate action required",
-      type: "orange",
-    },
-    {
-      title: "Response Teams",
-      value: "28",
-      subtitle: "Teams currently deployed",
-      type: "blue",
-    },
-    {
-      title: "Resolved Today",
-      value: "47",
-      subtitle: "Successfully handled",
-      type: "green",
-    },
-  ];
+  const [stats, setStats] = useState([]);
+
+  useEffect(() => {
+    async function loadEmergencyData() {
+      try {
+        const data = await getEmergencyData();
+
+        setStats([
+          {
+            title: "Active Incidents",
+            value: data.stats.activeIncidents,
+            subtitle: "Currently being monitored",
+            type: "red",
+          },
+          {
+            title: "Critical Alerts",
+            value: data.stats.criticalAlerts,
+            subtitle: "Immediate action required",
+            type: "orange",
+          },
+          {
+            title: "Response Teams",
+            value: data.stats.responseTeams,
+            subtitle: "Teams currently deployed",
+            type: "blue",
+          },
+          {
+            title: "Resolved Today",
+            value: data.stats.resolvedToday,
+            subtitle: "Successfully handled",
+            type: "green",
+          },
+        ]);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    loadEmergencyData();
+  }, []);
 
   return (
     <div className="emergency-stats">
