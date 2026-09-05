@@ -27,8 +27,11 @@ loadTraffic();
 const stats = [
 {
 title: "Active Vehicles",
-value: traffic ? traffic.active_vehicles?.toLocaleString() : "...",
-color: "#2563eb",
+value: traffic
+  ? traffic.active_vehicles != null
+    ? traffic.active_vehicles.toLocaleString()
+    : "N/A"
+  : "...",color: "#2563eb",
 },
 {
 title: "Average Speed",
@@ -41,9 +44,9 @@ value: traffic ? traffic.congestion : "...",
 color: "#f59e0b",
 },
 {
-title: "Accidents",
-value: "07",
-color: "#ef4444",
+  title: "Accidents",
+  value: "N/A",
+  color: "#ef4444",
 },
 ];
 

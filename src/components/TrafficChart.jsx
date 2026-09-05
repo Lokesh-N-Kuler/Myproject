@@ -19,13 +19,27 @@ function TrafficChart() {
     async function loadTraffic() {
       try {
         const data = await getTrafficChart();
-        setTrafficData(data);
+
+        console.log("NEW TRAFFIC POINT:", data);
+
+        setTrafficData((previousData) => {
+          const updatedData = [...previousData, data];
+
+          // Keep latest 10 readings
+          return updatedData.slice(-10);
+        });
       } catch (err) {
         console.error("Traffic Error:", err);
       }
     }
 
+    // First reading
     loadTraffic();
+
+    // New reading every 10 seconds
+    const interval = setInterval(loadTraffic, 10000);
+
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -47,7 +61,7 @@ function TrafficChart() {
 
           <Line
             type="monotone"
-            dataKey="vehicles"
+            dataKey="speed"
             stroke="#2563eb"
             strokeWidth={3}
           />
@@ -61,3 +75,4 @@ function TrafficChart() {
 }
 
 export default TrafficChart;
+

@@ -1,52 +1,106 @@
+import { useState } from "react";
 import "../styles/traffic.css";
 
+import {
+MapContainer,
+TileLayer,
+Marker,
+Popup,
+} from "react-leaflet";
+
+import "leaflet/dist/leaflet.css";
+
 function TrafficMap() {
-  return (
-    <div className="traffic-map-card">
+const [showMap, setShowMap] = useState(false);
 
-      <div className="map-header">
-        <div>
-          <h2>🗺 Live Traffic Map</h2>
-          <p>Real-time city traffic monitoring</p>
-        </div>
+const TOMTOM_API_KEY = import.meta.env.VITE_TOMTOM_API_KEY;
 
-        <button className="refresh-btn">
-          Refresh
-        </button>
-      </div>
+const trafficTileUrl =
+`https://api.tomtom.com/traffic/map/4/tile/flow/relative/` +
+`{z}/{x}/{y}.png?key=${TOMTOM_API_KEY}`;
 
-      <div className="map-container">
+const toggleMap = () => {
+setShowMap((previous) => !previous);
+};
 
-        <div className="map-placeholder">
+return ( <div className="traffic-map-card">
 
-          <div className="marker accident">
-            🚨
-          </div>
 
-          <div className="marker traffic">
-            🚗
-          </div>
+  <div className="map-header">
+    <div>
+      <h2>🗺 Live Traffic Map</h2>
+      <p>Real-time city traffic monitoring</p>
+    </div>
 
-          <div className="marker signal">
-            🚦
-          </div>
+    <button
+      className="refresh-btn"
+      onClick={toggleMap}
+    >
+      {showMap ? "Hide Map" : "Show Map"}
+    </button>
+  </div>
 
-          <div className="marker road">
-            🚧
-          </div>
+  {showMap && (
+    <div className="map-container">
 
-          <h3>Traffic Map</h3>
+      <MapContainer
+        center={[12.9716, 77.5946]}
+        zoom={12}
+        style={{
+          height: "100%",
+          width: "100%",
+        }}
+      >
 
-          <p>
-            Google Maps / Leaflet Map will be integrated here
-          </p>
+        {/* Base Map */}
+        <TileLayer
+          attribution="&copy; OpenStreetMap contributors"
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
 
-        </div>
+        {/* TomTom Live Traffic Layer */}
+        <TileLayer
+          url={trafficTileUrl}
+          opacity={0.8}
+        />
 
-      </div>
+        {/* Bengaluru */}
+        <Marker position={[12.9716, 77.5946]}>
+          <Popup>
+            Bengaluru City Center
+          </Popup>
+        </Marker>
+
+        {/* Bellandur */}
+        <Marker position={[12.9352, 77.6245]}>
+          <Popup>
+            Bellandur
+          </Popup>
+        </Marker>
+
+        {/* Silk Board */}
+        <Marker position={[12.9177, 77.6237]}>
+          <Popup>
+            Silk Board Junction
+          </Popup>
+        </Marker>
+
+        {/* Whitefield */}
+        <Marker position={[12.9698, 77.7499]}>
+          <Popup>
+            Whitefield
+          </Popup>
+        </Marker>
+
+      </MapContainer>
 
     </div>
-  );
+  )}
+
+</div>
+
+
+);
 }
 
 export default TrafficMap;
