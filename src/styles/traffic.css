@@ -612,3 +612,49 @@
 .leaflet-control {
     z-index: 1 !important;
 }
+.traffic-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.traffic-header h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.traffic-header p {
+  margin: 6px 0 0;
+  color: #e9e3e3;
+  font-size: 14px;
+}
+
+.traffic-header-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 15px;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  background: #060700;
+}
+
+.traffic-header-status strong {
+  display: block;
+  font-size: 14px;
+}
+
+.traffic-header-status p {
+  margin: 3px 0 0;
+  font-size: 11px;
+  color: #888;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #22c55e;
+}

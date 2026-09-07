@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { getTraffic } from "../Services/trafficService";
-import "../styles/trafficStats.css";
 
 function TrafficStats() {
   const [traffic, setTraffic] = useState(null);
@@ -20,7 +19,6 @@ function TrafficStats() {
   useEffect(() => {
     loadTraffic();
 
-    // Refresh every 30 seconds
     const interval = setInterval(loadTraffic, 30000);
 
     return () => clearInterval(interval);
@@ -34,7 +32,6 @@ function TrafficStats() {
         : "...",
       color: "#2563eb",
     },
-
     {
       title: "Free Flow Speed",
       value: traffic
@@ -42,7 +39,6 @@ function TrafficStats() {
         : "...",
       color: "#10b981",
     },
-
     {
       title: "Congestion",
       value: traffic
@@ -50,7 +46,6 @@ function TrafficStats() {
         : "...",
       color: "#f59e0b",
     },
-
     {
       title: "Traffic Level",
       value: traffic
@@ -62,12 +57,8 @@ function TrafficStats() {
 
   return (
     <div className="traffic-stats">
-
       {stats.map((item, index) => (
-        <div
-          className="traffic-card"
-          key={index}
-        >
+        <div className="traffic-card" key={index}>
           <h4>{item.title}</h4>
 
           <h2 style={{ color: item.color }}>
@@ -75,7 +66,6 @@ function TrafficStats() {
           </h2>
         </div>
       ))}
-
     </div>
   );
 }
