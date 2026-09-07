@@ -9,7 +9,7 @@ import {
   CartesianGrid,
 } from "recharts";
 
-import { getTrafficChart } from "../services/trafficService";
+import { getTrafficChart } from "../Services/trafficService";
 import "../styles/chart.css";
 
 function TrafficChart() {
@@ -37,7 +37,7 @@ function TrafficChart() {
     loadTraffic();
 
     // New reading every 10 seconds
-    const interval = setInterval(loadTraffic, 10000);
+    const interval = setInterval(loadTraffic, 30000);
 
     return () => clearInterval(interval);
   }, []);

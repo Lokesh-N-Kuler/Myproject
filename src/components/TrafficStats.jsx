@@ -1,76 +1,83 @@
 import { useEffect, useState } from "react";
-import { getTraffic } from "../services/trafficService";
+import { getTraffic } from "../Services/trafficService";
+import "../styles/trafficStats.css";
 
 function TrafficStats() {
+  const [traffic, setTraffic] = useState(null);
 
-const [traffic, setTraffic] = useState(null);
+  const loadTraffic = async () => {
+    try {
+      const data = await getTraffic();
 
-useEffect(() => {
-async function loadTraffic() {
-try {
-const data = await getTraffic();
+      console.log("TRAFFIC STATS DATA:", data);
 
+      setTraffic(data);
+    } catch (err) {
+      console.error("Traffic Stats Error:", err);
+    }
+  };
 
-    console.log("TRAFFIC STATS DATA:", data);
+  useEffect(() => {
+    loadTraffic();
 
-    setTraffic(data);
-  } catch (err) {
-    console.error("Traffic Stats Error:", err);
-  }
-}
+    // Refresh every 30 seconds
+    const interval = setInterval(loadTraffic, 30000);
 
-loadTraffic();
+    return () => clearInterval(interval);
+  }, []);
 
+  const stats = [
+    {
+      title: "Current Speed",
+      value: traffic
+        ? `${traffic.currentSpeed} km/h`
+        : "...",
+      color: "#2563eb",
+    },
 
-}, []);
+    {
+      title: "Free Flow Speed",
+      value: traffic
+        ? `${traffic.freeFlowSpeed} km/h`
+        : "...",
+      color: "#10b981",
+    },
 
-const stats = [
-{
-title: "Active Vehicles",
-value: traffic
-  ? traffic.active_vehicles != null
-    ? traffic.active_vehicles.toLocaleString()
-    : "N/A"
-  : "...",color: "#2563eb",
-},
-{
-title: "Average Speed",
-value: traffic ? `${traffic.average_speed} km/h` : "...",
-color: "#10b981",
-},
-{
-title: "Congestion",
-value: traffic ? traffic.congestion : "...",
-color: "#f59e0b",
-},
-{
-  title: "Accidents",
-  value: "N/A",
-  color: "#ef4444",
-},
-];
+    {
+      title: "Congestion",
+      value: traffic
+        ? `${traffic.congestion}%`
+        : "...",
+      color: "#f59e0b",
+    },
 
-return ( <div className="traffic-stats">
+    {
+      title: "Traffic Level",
+      value: traffic
+        ? traffic.congestionLevel
+        : "...",
+      color: "#ef4444",
+    },
+  ];
 
+  return (
+    <div className="traffic-stats">
 
-  {stats.map((item, index) => (
+      {stats.map((item, index) => (
+        <div
+          className="traffic-card"
+          key={index}
+        >
+          <h4>{item.title}</h4>
 
-    <div className="traffic-card" key={index}>
-
-      <h4>{item.title}</h4>
-
-      <h2 style={{ color: item.color }}>
-        {item.value}
-      </h2>
+          <h2 style={{ color: item.color }}>
+            {item.value}
+          </h2>
+        </div>
+      ))}
 
     </div>
-
-  ))}
-
-</div>
-
-
-);
+  );
 }
 
 export default TrafficStats;
