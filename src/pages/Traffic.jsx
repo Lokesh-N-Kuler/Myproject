@@ -10,7 +10,7 @@ import TrafficIncidents from "../components/TrafficIncidents";
 
 
 
-function Traffic() {
+function Traffic() {                                   
   return (
     <section id="traffic" className="traffic-page">
 
