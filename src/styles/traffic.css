@@ -692,3 +692,24 @@
   justify-content: center;
   color: #777;
 }
+.road-loading {
+  padding: 30px;
+  text-align: center;
+  color: #777;
+}
+
+.no-closures {
+  padding: 25px 10px;
+  text-align: center;
+}
+
+.no-closures h4 {
+  margin: 0 0 6px;
+  font-size: 14px;
+}
+
+.no-closures p {
+  margin: 0;
+  color: #777;
+  font-size: 12px;
+}

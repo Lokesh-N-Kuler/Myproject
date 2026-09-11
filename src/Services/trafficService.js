@@ -229,4 +229,57 @@ export async function getSignalStatus() {
   );
 
   return results;
+  
+}
+// Get real road closure / restriction incidents
+export async function getRoadClosures() {
+  const bbox = "77.50,12.85,77.80,13.15";
+
+  const url =
+    `https://api.tomtom.com/traffic/services/5/incidentDetails` +
+    `?bbox=${bbox}` +
+    `&fields={incidents{type,geometry{type,coordinates},properties{iconCategory,magnitudeOfDelay,events{description}}}}` +
+    `&language=en-GB` +
+    `&timeValidityFilter=present` +
+    `&key=${TOMTOM_API_KEY}`;
+
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error(
+      `Road closure API failed: ${response.status}`
+    );
+  }
+
+  const data = await response.json();
+
+  const incidents = data.incidents || [];
+
+  const closures = incidents
+    .filter((incident) => {
+      const category =
+        incident.properties?.iconCategory;
+
+      return category === 8;
+    })
+    .map((incident, index) => {
+      const properties = incident.properties || {};
+      const events = properties.events || [];
+
+      const reason =
+        events.length > 0 && events[0].description
+          ? events[0].description
+          : "Road closure";
+
+      return {
+        id: index,
+        road: "Road closure detected",
+        reason,
+        status: "Closed",
+        delay: properties.magnitudeOfDelay || 0,
+      };
+    });
+
+  // Show maximum 5 closures
+  return closures.slice(0, 5);
 }
