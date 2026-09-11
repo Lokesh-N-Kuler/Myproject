@@ -232,6 +232,7 @@ export async function getSignalStatus() {
   
 }
 // Get real road closure / restriction incidents
+// Get real road closure / restriction incidents
 export async function getRoadClosures() {
   const bbox = "77.50,12.85,77.80,13.15";
 
@@ -257,29 +258,215 @@ export async function getRoadClosures() {
 
   const closures = incidents
     .filter((incident) => {
-      const category =
-        incident.properties?.iconCategory;
-
-      return category === 8;
+      return incident.properties?.iconCategory === 8;
     })
     .map((incident, index) => {
       const properties = incident.properties || {};
       const events = properties.events || [];
 
-      const reason =
+      const description =
         events.length > 0 && events[0].description
           ? events[0].description
           : "Road closure";
 
+      // Get coordinates from incident
+      let latitude = null;
+      let longitude = null;
+
+      const coordinates =
+        incident.geometry?.coordinates;
+
+      if (Array.isArray(coordinates)) {
+        if (
+          coordinates.length > 0 &&
+          Array.isArray(coordinates[0])
+        ) {
+          // LineString / multiple coordinates
+          longitude = coordinates[0][0];
+          latitude = coordinates[0][1];
+        } else if (coordinates.length >= 2) {
+          // Point
+          longitude = coordinates[0];
+          latitude = coordinates[1];
+        }
+      }
+
       return {
         id: index,
-        road: "Road closure detected",
-        reason,
+        road: description,
+        area:
+          latitude !== null && longitude !== null
+            ? `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`
+            : "Bengaluru",
+
+        reason: description,
         status: "Closed",
-        delay: properties.magnitudeOfDelay || 0,
+
+        latitude,
+        longitude,
       };
     });
 
-  // Show maximum 5 closures
+  // Show only the first 5
   return closures.slice(0, 5);
+}
+// Generate route recommendation based on live traffic conditions
+export async function getRouteRecommendation() {
+  const routes = [
+    {
+      name: "MG Road",
+      latitude: 12.9756,
+      longitude: 77.6063,
+    },
+    {
+      name: "Indiranagar",
+      latitude: 12.9784,
+      longitude: 77.6408,
+    },
+    {
+      name: "Whitefield",
+      latitude: 12.9698,
+      longitude: 77.7499,
+    },
+    {
+      name: "Electronic City",
+      latitude: 12.8452,
+      longitude: 77.6602,
+    },
+  ];
+
+  const results = await Promise.all(
+    routes.map(async (route) => {
+      const url =
+        `https://api.tomtom.com/traffic/services/4/flowSegmentData/relative0/10/json` +
+        `?point=${route.latitude},${route.longitude}` +
+        `&unit=KMPH` +
+        `&openLr=false` +
+        `&key=${TOMTOM_API_KEY}`;
+
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error(
+          `Route traffic API failed: ${response.status}`
+        );
+      }
+
+      const data = await response.json();
+      const flow = data.flowSegmentData;
+
+      if (!flow) {
+        return {
+          name: route.name,
+          speed: null,
+          congestion: 100,
+        };
+      }
+
+      const currentSpeed = Math.round(flow.currentSpeed);
+      const freeFlowSpeed = Math.round(flow.freeFlowSpeed);
+
+      let congestion = 0;
+
+      if (freeFlowSpeed > 0) {
+        congestion = Math.round(
+          ((freeFlowSpeed - currentSpeed) /
+            freeFlowSpeed) *
+            100
+        );
+      }
+
+      congestion = Math.max(
+        0,
+        Math.min(100, congestion)
+      );
+
+      return {
+        name: route.name,
+        speed: currentSpeed,
+        congestion,
+      };
+    })
+  );
+
+  // Sort from least congested to most congested
+  results.sort((a, b) => a.congestion - b.congestion);
+
+  return {
+    recommended: results[0],
+    alternatives: results.slice(1),
+  };
+}
+// Get real-time traffic incidents
+export async function getTrafficIncidents() {
+  const bbox = "77.50,12.85,77.80,13.15";
+
+  const url =
+    `https://api.tomtom.com/traffic/services/5/incidentDetails` +
+    `?bbox=${bbox}` +
+    `&fields={incidents{type,geometry{type,coordinates},properties{iconCategory,magnitudeOfDelay,events{description}}}}` +
+    `&language=en-GB` +
+    `&timeValidityFilter=present` +
+    `&key=${TOMTOM_API_KEY}`;
+
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error(
+      `Traffic incident API failed: ${response.status}`
+    );
+  }
+
+  const data = await response.json();
+
+  const incidents = data.incidents || [];
+
+  return incidents.slice(0, 5).map((incident, index) => {
+    const properties = incident.properties || {};
+    const events = properties.events || [];
+
+    let description = "Traffic incident";
+
+    if (events.length > 0 && events[0].description) {
+      description = events[0].description;
+    }
+
+    let type = "Incident";
+
+    switch (properties.iconCategory) {
+      case 1:
+        type = "Accident";
+        break;
+
+      case 6:
+        type = "Congestion";
+        break;
+
+      case 8:
+        type = "Road Closure";
+        break;
+
+      case 9:
+        type = "Road Works";
+        break;
+
+      default:
+        type = "Traffic Incident";
+    }
+
+    let severity = "Low";
+
+    if (properties.magnitudeOfDelay >= 4) {
+      severity = "High";
+    } else if (properties.magnitudeOfDelay >= 2) {
+      severity = "Moderate";
+    }
+
+    return {
+      id: index,
+      type,
+      description,
+      severity,
+    };
+  });
 }

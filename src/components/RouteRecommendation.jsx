@@ -1,44 +1,114 @@
+import { useEffect, useState } from "react";
+import { getRouteRecommendation } from "../Services/trafficService";
+
 function RouteRecommendation() {
+  const [routeData, setRouteData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const loadRoutes = async () => {
+    try {
+      const data = await getRouteRecommendation();
+
+      console.log("REAL ROUTE DATA:", data);
+
+      setRouteData(data);
+    } catch (error) {
+      console.error("Route Recommendation Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadRoutes();
+
+    const interval = setInterval(loadRoutes, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="route-card">
-      <div className="route-header">
+
+      <div className="card-title">
         <div>
-          <h2>AI Route Recommendation</h2>
-          <p>Smart route optimization based on current traffic</p>
+          <h2>Route Recommendation</h2>
+          <p>Based on live traffic conditions</p>
         </div>
 
-        <span className="ai-badge">AI ACTIVE</span>
+        <span className="live-label">LIVE</span>
       </div>
 
-      <div className="route-alert">
-        <strong>Heavy congestion detected</strong>
-        <p>Silk Board Junction is experiencing unusually high traffic.</p>
-      </div>
+      {loading ? (
+        <div className="route-loading">
+          Analyzing traffic routes...
+        </div>
+      ) : routeData ? (
+        <>
 
-      <div className="route-details">
-        <div className="route-point">
-          <span className="route-dot start"></span>
-          <div>
-            <small>AVOID</small>
-            <h4>Silk Board Junction</h4>
+          <div className="recommended-route">
+
+            <div>
+              <span className="route-label">
+                RECOMMENDED
+              </span>
+
+              <h3>
+                {routeData.recommended.name}
+              </h3>
+
+              <p>
+                {routeData.recommended.speed !== null
+                  ? `${routeData.recommended.speed} km/h`
+                  : "No traffic data"}
+              </p>
+            </div>
+
+            <div className="route-score">
+              {routeData.recommended.congestion}%
+              <span>congestion</span>
+            </div>
+
           </div>
-        </div>
 
-        <div className="route-line"></div>
+          <div className="route-alternatives">
 
-        <div className="route-point">
-          <span className="route-dot end"></span>
-          <div>
-            <small>RECOMMENDED ROUTE</small>
-            <h4>Hosur Road → NICE Road</h4>
+            <h4>Alternative routes</h4>
+
+            {routeData.alternatives
+              .slice(0, 3)
+              .map((route, index) => (
+
+                <div
+                  className="alternative-route"
+                  key={index}
+                >
+                  <div>
+                    <strong>{route.name}</strong>
+
+                    <p>
+                      {route.speed !== null
+                        ? `${route.speed} km/h`
+                        : "No data"}
+                    </p>
+                  </div>
+
+                  <span>
+                    {route.congestion}% congestion
+                  </span>
+                </div>
+
+              ))}
+
           </div>
-        </div>
-      </div>
 
-      <div className="time-saved">
-        <span>Estimated time saved</span>
-        <strong>14 min</strong>
-      </div>
+        </>
+      ) : (
+        <div className="route-loading">
+          Unable to load route data.
+        </div>
+      )}
+
     </div>
   );
 }

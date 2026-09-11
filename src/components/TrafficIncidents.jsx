@@ -1,82 +1,91 @@
-import "../styles/traffic.css";
+import { useEffect, useState } from "react";
+import { getTrafficIncidents } from "../Services/trafficService";
 
 function TrafficIncidents() {
-  const incidents = [
-    {
-      type: "Accident",
-      location: "MG Road Junction",
-      description: "Two vehicles involved. Traffic moving slowly.",
-      time: "2 min ago",
-      status: "High",
-    },
-    {
-      type: "Heavy Traffic",
-      location: "Silk Board Junction",
-      description: "Severe congestion detected in both directions.",
-      time: "5 min ago",
-      status: "Medium",
-    },
-    {
-      type: "Road Work",
-      location: "Old Airport Road",
-      description: "One lane temporarily closed for maintenance.",
-      time: "12 min ago",
-      status: "Low",
-    },
-    {
-      type: "Signal Issue",
-      location: "Whitefield Main Road",
-      description: "Traffic signal operating with a delay.",
-      time: "18 min ago",
-      status: "Medium",
-    },
-  ];
+  const [incidents, setIncidents] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const loadIncidents = async () => {
+    try {
+      const data = await getTrafficIncidents();
+
+      console.log("REAL TRAFFIC INCIDENTS:", data);
+
+      setIncidents(data);
+    } catch (error) {
+      console.error("Traffic Incidents Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadIncidents();
+
+    const interval = setInterval(loadIncidents, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="incidents-card">
 
-      <div className="incidents-header">
+      <div className="card-title">
         <div>
-          <h2>🚨 Live Traffic Incidents</h2>
-          <p>Recent incidents detected across the city</p>
+          <h2>Traffic Incidents</h2>
+          <p>Live incidents in monitored area</p>
         </div>
 
-        <button className="view-all-btn">
-          View All
-        </button>
+        <span className="live-label">LIVE</span>
       </div>
 
-      <div className="incident-list">
+      {loading ? (
+        <div className="incident-loading">
+          Loading traffic incidents...
+        </div>
+      ) : incidents.length === 0 ? (
+        <div className="no-incidents">
+          <h4>No active incidents</h4>
+          <p>
+            No traffic incidents detected at the moment.
+          </p>
+        </div>
+      ) : (
+        <div className="incident-list">
 
-        {incidents.map((incident, index) => (
-          <div className="incident-row" key={index}>
+          {incidents.map((incident) => (
+            <div
+              className="incident-row"
+              key={incident.id}
+            >
 
-            <div className="incident-info">
+              <div className="incident-info">
 
-              <div className="incident-title">
-                <h4>{incident.type}</h4>
-
-                <span
-                  className={`incident-status ${incident.status.toLowerCase()}`}
+                <div
+                  className={`incident-icon ${incident.severity.toLowerCase()}`}
                 >
-                  {incident.status}
-                </span>
+                  !
+                </div>
+
+                <div>
+                  <h4>{incident.type}</h4>
+
+                  <p>{incident.description}</p>
+                </div>
+
               </div>
 
-              <h5>{incident.location}</h5>
-
-              <p>{incident.description}</p>
+              <span
+                className={`incident-severity ${incident.severity.toLowerCase()}`}
+              >
+                {incident.severity}
+              </span>
 
             </div>
+          ))}
 
-            <span className="incident-time">
-              {incident.time}
-            </span>
-
-          </div>
-        ))}
-
-      </div>
+        </div>
+      )}
 
     </div>
   );

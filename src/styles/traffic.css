@@ -305,7 +305,7 @@
 
 .road-card,
 .route-card {
-    background-color: rgb(13, 13, 25);
+    background-color: rgba(0, 0, 0, 0.679);
     color: white;
     border-radius:12px;
     border: solid rgba(0, 0, 0, 0.46) 2px;
@@ -318,7 +318,7 @@
 .route-card h2 {
   margin: 0;
   font-size: 20px;
-  color: white;
+  color: rgba(255, 102, 0, 0.883);
 }
 
 .road-card p,
@@ -683,6 +683,7 @@
   border-radius: 10px;
   background: #e8f5e9;
   color: #2e7d32;
+
 }
 
 .chart-loading {
@@ -712,4 +713,208 @@
   margin: 0;
   color: #777;
   font-size: 12px;
+}
+.route-card {
+  background: #000000;
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.route-loading {
+  padding: 30px;
+  text-align: center;
+  color: #777;
+}
+
+.recommended-route {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 16px;
+
+  margin-bottom: 18px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+}
+
+.route-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #2563eb;
+}
+
+.recommended-route h3 {
+  margin: 5px 0;
+  font-size: 17px;
+}
+
+.recommended-route p {
+  margin: 0;
+  color: #777;
+  font-size: 12px;
+}
+
+.route-score {
+  font-size: 20px;
+  font-weight: 700;
+  text-align: right;
+}
+
+.route-score span {
+  display: block;
+  font-size: 10px;
+  font-weight: 400;
+  color: #777;
+}
+
+.route-alternatives h4 {
+  margin: 0 0 10px;
+  font-size: 14px;
+}
+
+.alternative-route {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 11px 0;
+
+  border-bottom: 1px solid #eeeeee;
+}
+
+.alternative-route strong {
+  font-size: 13px;
+}
+
+.alternative-route p {
+  margin: 3px 0 0;
+  color: #777;
+  font-size: 11px;
+}
+
+.alternative-route > span {
+  font-size: 11px;
+  color: #777;
+} 
+.incidents-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.incident-loading {
+  padding: 30px;
+  text-align: center;
+  color: #777;
+}
+
+.no-incidents {
+  padding: 25px;
+  text-align: center;
+}
+
+.no-incidents h4 {
+  margin: 0 0 6px;
+  font-size: 14px;
+}
+
+.no-incidents p {
+  margin: 0;
+  color: #777;
+  font-size: 12px;
+}
+
+.incident-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.incident-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 12px;
+
+  border: 1px solid #eeeeee;
+  border-radius: 10px;
+}
+
+.incident-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.incident-info h4 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.incident-info p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #777;
+}
+
+.incident-icon {
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  font-weight: 700;
+}
+
+.incident-icon.low {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.incident-icon.moderate {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.incident-icon.high {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.incident-severity {
+  font-size: 11px;
+  font-weight: 600;
+
+  padding: 5px 9px;
+
+  border-radius: 10px;
+}
+
+.incident-severity.low {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.incident-severity.moderate {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.incident-severity.high {
+  background: #fee2e2;
+  color: #dc2626;
+}
+.closure-row small {
+  display: block;
+  margin-top: 5px;
+  font-size: 11px;
+  color: #999;
 }

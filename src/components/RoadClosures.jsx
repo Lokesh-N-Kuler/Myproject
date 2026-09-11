@@ -56,10 +56,15 @@ function RoadClosures() {
           {closures.map((item) => (
             <div className="closure-row" key={item.id}>
 
-              <div>
-                <h4>{item.road}</h4>
-                <p>{item.reason}</p>
-              </div>
+             <div>
+  <h4>{item.road}</h4>
+
+  <p>{item.reason}</p>
+
+  <small>
+    Area: {item.area}
+  </small>
+</div>
 
               <span
                 className={`road-status ${item.status.toLowerCase()}`}
