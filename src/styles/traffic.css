@@ -227,11 +227,10 @@
 
 .chart-card{
 
-    background-color: rgb(13, 13, 25);
+    background-color: rgba(0, 0, 0, 0.848);
+    border: solid white 1px;
     color: white;
     border-radius:12px;
-    border: solid rgba(0, 0, 0, 0.46) 2px;
-    box-shadow:0 0 5px white;
     padding:20px;
 }
 
@@ -245,11 +244,10 @@
 
 .signal-card{
 
-   background-color: rgb(13, 13, 25);
+    background-color: rgba(0, 0, 0, 0.848);
+    border: solid white 1px;
     color: white;
     border-radius:12px;
-    border: solid rgba(0, 0, 0, 0.46) 2px;
-    box-shadow:0 0 5px white;
     padding:20px;
 
 }

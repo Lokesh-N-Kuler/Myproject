@@ -19,6 +19,7 @@ function App() {
 
   return(
     <>
+    
         <div className="mapnav" id="dashboard">
                <DashBoard/>
 

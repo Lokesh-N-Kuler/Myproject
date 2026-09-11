@@ -15,11 +15,12 @@
 */
 .ai-card{
     
-    background-color: rgb(0, 0, 0);
+       background-color: rgba(0, 0, 0, 0.848);
+    border: solid white 1px;
     border-radius:12px;
-    padding:15px;
+    padding:10px;
     margin-top:20px;
-    box-shadow:0 0 5px white;
+   
     position: absolute;
     margin-left: 680px;
     margin-top:  -472px;; 
