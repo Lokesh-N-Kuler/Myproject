@@ -25,21 +25,7 @@ function DashBoard()
 
 
         
-        <div className="fixed-container">
-        <div className="left">
-            <nav>
-            <h4 className="HH4">CITY PILOT AI</h4>
-            <h6 className="HH6">Smart City Safe City</h6>
-            
-        </nav>
-        <div className="center"><input placeholder="search anything"></input></div>
-        </div>
-
-        <div className="right">
-        <img src={pfp} alt="profile" className="imgs"></img>
-        <h6 className="pfpname">Lokesh N K</h6>
-        </div>
-        </div><hr></hr>
+       
 
         <div className="navgation">
     <nav className="sidebar">
