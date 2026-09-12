@@ -61,9 +61,9 @@ function SignalStatus() {
                 ></div>
 
                 <div>
-                  <h4>{signal.name}</h4>
+                  <h4 className="signalname">{signal.name}</h4>
 
-                  <p>
+                  <p className="speed">
                     {signal.speed !== null
                       ? `${signal.speed} km/h`
                       : "No traffic data"}

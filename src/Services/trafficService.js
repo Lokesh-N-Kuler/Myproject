@@ -233,10 +233,11 @@ export async function getSignalStatus() {
 }
 // Get real road closure / restriction incidents
 // Get real road closure / restriction incidents
+// Get real road closures and reverse-geocode their locations
 export async function getRoadClosures() {
   const bbox = "77.50,12.85,77.80,13.15";
 
-  const url =
+  const incidentUrl =
     `https://api.tomtom.com/traffic/services/5/incidentDetails` +
     `?bbox=${bbox}` +
     `&fields={incidents{type,geometry{type,coordinates},properties{iconCategory,magnitudeOfDelay,events{description}}}}` +
@@ -244,7 +245,7 @@ export async function getRoadClosures() {
     `&timeValidityFilter=present` +
     `&key=${TOMTOM_API_KEY}`;
 
-  const response = await fetch(url);
+  const response = await fetch(incidentUrl);
 
   if (!response.ok) {
     throw new Error(
@@ -256,59 +257,168 @@ export async function getRoadClosures() {
 
   const incidents = data.incidents || [];
 
-  const closures = incidents
-    .filter((incident) => {
-      return incident.properties?.iconCategory === 8;
-    })
-    .map((incident, index) => {
-      const properties = incident.properties || {};
-      const events = properties.events || [];
+  // Only road closure incidents
+  const closureIncidents = incidents.filter(
+    (incident) =>
+      incident.properties?.iconCategory === 8
+  );
 
-      const description =
-        events.length > 0 && events[0].description
-          ? events[0].description
-          : "Road closure";
+  // Reverse geocode one incident
+  const reverseGeocode = async (
+    latitude,
+    longitude
+  ) => {
+    try {
+      const url =
+        `https://api.tomtom.com/search/2/reverseGeocode/` +
+        `${latitude},${longitude}.json` +
+        `?language=en-GB` +
+        `&view=IN` +
+        `&key=${TOMTOM_API_KEY}`;
 
-      // Get coordinates from incident
-      let latitude = null;
-      let longitude = null;
+      const response = await fetch(url);
 
-      const coordinates =
-        incident.geometry?.coordinates;
+      if (!response.ok) {
+        console.error(
+          "Reverse geocoding failed:",
+          response.status
+        );
 
-      if (Array.isArray(coordinates)) {
-        if (
-          coordinates.length > 0 &&
-          Array.isArray(coordinates[0])
-        ) {
-          // LineString / multiple coordinates
-          longitude = coordinates[0][0];
-          latitude = coordinates[0][1];
-        } else if (coordinates.length >= 2) {
-          // Point
-          longitude = coordinates[0];
-          latitude = coordinates[1];
-        }
+        return null;
       }
 
+      const data = await response.json();
+
+      const result = data.addresses?.[0];
+
+      if (!result) {
+        return null;
+      }
+
+      const address = result.address || {};
+
       return {
-        id: index,
-        road: description,
+        road:
+          address.streetName ||
+          address.street ||
+          "Unknown Road",
+
         area:
-          latitude !== null && longitude !== null
-            ? `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`
-            : "Bengaluru",
+          address.municipalitySubdivision ||
+          address.municipality ||
+          address.localName ||
+          "Bengaluru",
 
-        reason: description,
-        status: "Closed",
+        city:
+          address.municipality ||
+          "Bengaluru",
 
-        latitude,
-        longitude,
+        district:
+          address.countrySecondarySubdivision ||
+          "",
+
+        postalCode:
+          address.postalCode ||
+          "",
       };
-    });
+    } catch (error) {
+      console.error(
+        "Reverse geocoding error:",
+        error
+      );
 
-  // Show only the first 5
-  return closures.slice(0, 5);
+      return null;
+    }
+  };
+
+  const closures = await Promise.all(
+    closureIncidents
+      .slice(0, 5)
+      .map(async (incident, index) => {
+        const coordinates =
+          incident.geometry?.coordinates;
+
+        let latitude = null;
+        let longitude = null;
+
+        // Point geometry
+        if (
+          Array.isArray(coordinates) &&
+          coordinates.length >= 2 &&
+          !Array.isArray(coordinates[0])
+        ) {
+          longitude = Number(coordinates[0]);
+          latitude = Number(coordinates[1]);
+        }
+
+        // LineString geometry
+        else if (
+          Array.isArray(coordinates) &&
+          Array.isArray(coordinates[0])
+        ) {
+          longitude = Number(
+            coordinates[0][0]
+          );
+
+          latitude = Number(
+            coordinates[0][1]
+          );
+        }
+
+        let location = null;
+
+        if (
+          latitude !== null &&
+          longitude !== null
+        ) {
+          location = await reverseGeocode(
+            latitude,
+            longitude
+          );
+        }
+
+        const properties =
+          incident.properties || {};
+
+        const events =
+          properties.events || [];
+
+        const reason =
+          events.length > 0 &&
+          events[0].description
+            ? events[0].description
+            : "Road closure";
+
+        return {
+          id: index,
+
+          road:
+            location?.road ||
+            "Road closure",
+
+          area:
+            location?.area ||
+            "Bengaluru",
+
+          city:
+            location?.city ||
+            "Bengaluru",
+
+          postalCode:
+            location?.postalCode ||
+            "",
+
+          reason,
+
+          status: "Closed",
+
+          latitude,
+          longitude,
+        };
+      })
+  );
+
+  return closures;
 }
 // Generate route recommendation based on live traffic conditions
 export async function getRouteRecommendation() {
