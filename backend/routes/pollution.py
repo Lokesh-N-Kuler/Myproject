@@ -1,37 +1,72 @@
 from fastapi import APIRouter, HTTPException
 import httpx
+import asyncio
 
 router = APIRouter(
     prefix="/api/pollution",
     tags=["Pollution"]
 )
 
+# Bengaluru center
 LATITUDE = 12.9716
 LONGITUDE = 77.5946
 
 
+AREAS = {
+    "Peenya Industrial Area": {
+        "latitude": 13.0329,
+        "longitude": 77.5279
+    },
+    "Silk Board": {
+        "latitude": 12.9172,
+        "longitude": 77.6227
+    },
+    "Whitefield": {
+        "latitude": 12.9698,
+        "longitude": 77.7499
+    },
+    "Electronic City": {
+        "latitude": 12.8452,
+        "longitude": 77.6602
+    },
+    "Indiranagar": {
+        "latitude": 12.9784,
+        "longitude": 77.6408
+    }
+}
+
+
 def get_aqi_status(aqi: int) -> str:
+
     if aqi <= 50:
         return "Good"
+
     elif aqi <= 100:
         return "Moderate"
+
     elif aqi <= 150:
         return "Unhealthy for Sensitive Groups"
+
     elif aqi <= 200:
         return "Unhealthy"
+
     elif aqi <= 300:
         return "Very Unhealthy"
+
     return "Hazardous"
 
 
-@router.get("/")
-async def get_pollution():
+async def fetch_air_quality(
+    client: httpx.AsyncClient,
+    latitude: float,
+    longitude: float
+):
 
     url = "https://air-quality-api.open-meteo.com/v1/air-quality"
 
     params = {
-        "latitude": LATITUDE,
-        "longitude": LONGITUDE,
+        "latitude": latitude,
+        "longitude": longitude,
 
         "current": ",".join([
             "us_aqi",
@@ -50,18 +85,47 @@ async def get_pollution():
         "timezone": "Asia/Kolkata"
     }
 
+    response = await client.get(url, params=params)
+
+    response.raise_for_status()
+
+    return response.json()
+
+
+@router.get("/")
+async def get_pollution():
+
     try:
-        async with httpx.AsyncClient(timeout=10) as client:
-            response = await client.get(url, params=params)
 
-        response.raise_for_status()
+        async with httpx.AsyncClient(timeout=15) as client:
 
-        data = response.json()
+            # Main Bengaluru location
+            data = await fetch_air_quality(
+                client,
+                LATITUDE,
+                LONGITUDE
+            )
+
+            # Fetch all areas simultaneously
+            area_tasks = [
+                fetch_air_quality(
+                    client,
+                    area["latitude"],
+                    area["longitude"]
+                )
+                for area in AREAS.values()
+            ]
+
+            area_results = await asyncio.gather(*area_tasks)
 
         current = data["current"]
         hourly = data["hourly"]
 
         current_aqi = int(current["us_aqi"])
+
+        # -----------------------------
+        # Hourly AQI
+        # -----------------------------
 
         hourly_aqi = []
 
@@ -69,11 +133,49 @@ async def get_pollution():
             hourly["time"],
             hourly["us_aqi"]
         ):
+
             if aqi is not None:
+
                 hourly_aqi.append({
                     "time": time,
                     "aqi": int(aqi)
                 })
+
+        # -----------------------------
+        # Area AQI
+        # -----------------------------
+
+        areas = []
+
+        for (name, location), area_data in zip(
+            AREAS.items(),
+            area_results
+        ):
+
+            area_current = area_data["current"]
+
+            area_aqi = int(area_current["us_aqi"])
+
+            areas.append({
+                "name": name,
+                "aqi": area_aqi,
+                "status": get_aqi_status(area_aqi),
+                "level": (
+                    "good"
+                    if area_aqi <= 100
+                    else "moderate"
+                    if area_aqi <= 150
+                    else "high"
+                ),
+                "latitude": location["latitude"],
+                "longitude": location["longitude"]
+            })
+
+        # Highest AQI first
+        areas.sort(
+            key=lambda item: item["aqi"],
+            reverse=True
+        )
 
         return {
             "location": "Bengaluru",
@@ -93,6 +195,8 @@ async def get_pollution():
 
             "hourly": hourly_aqi,
 
+            "areas": areas,
+
             "updatedAt": current["time"],
 
             "unit": {
@@ -102,6 +206,7 @@ async def get_pollution():
         }
 
     except httpx.HTTPError as error:
+
         raise HTTPException(
             status_code=502,
             detail=f"Air quality service unavailable: {error}"
