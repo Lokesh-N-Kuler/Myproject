@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import {
   LineChart,
   Line,
@@ -9,44 +10,104 @@ import {
   CartesianGrid,
 } from "recharts";
 
-import { getAQI } from "../services/AQIservice";
+import { getAQI } from "../Services/AQIservice";
+
 import "../styles/pollution.css";
 
+
 function PollutionAQIChart() {
+
   const [aqiData, setAqiData] = useState([]);
 
-  useEffect(() => {
-    async function loadAQI() {
-      try {
-        const data = await getAQI();
-        setAqiData(data);
-      } catch (err) {
-        console.error("Failed to load AQI data:", err);
-      }
+  const loadAQI = async () => {
+
+    try {
+
+      const data = await getAQI();
+
+      const formattedData = data.map(item => ({
+
+        time: new Date(item.time)
+          .toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit"
+          }),
+
+        aqi: item.aqi
+
+      }));
+
+      setAqiData(formattedData);
+
+    } catch (error) {
+
+      console.error(
+        "Failed to load AQI data:",
+        error
+      );
+
     }
 
+  };
+
+
+  useEffect(() => {
+
     loadAQI();
+
+    const interval = setInterval(
+      loadAQI,
+      60000
+    );
+
+    return () => clearInterval(interval);
+
   }, []);
 
+
   return (
+
     <div className="pollution-aqi-chart-card">
+
       <div className="pollution-card-header">
+
         <div>
-          <h2>Live AQI Trend</h2>
-          <p>Air Quality Index throughout the day</p>
+
+          <h2>
+            Live AQI Trend
+          </h2>
+
+          <p>
+            Air Quality Index throughout the day
+          </p>
+
         </div>
 
         <span className="aqi-live-badge">
+
           <span></span>
+
           LIVE
+
         </span>
+
       </div>
 
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={aqiData}>
-          <CartesianGrid strokeDasharray="3 3" />
 
-          <XAxis dataKey="time" />
+      <ResponsiveContainer
+        width="100%"
+        height={300}
+      >
+
+        <LineChart data={aqiData}>
+
+          <CartesianGrid
+            strokeDasharray="3 3"
+          />
+
+          <XAxis
+            dataKey="time"
+          />
 
           <YAxis />
 
@@ -58,11 +119,17 @@ function PollutionAQIChart() {
             stroke="#2563eb"
             strokeWidth={3}
             name="AQI"
+            dot={false}
           />
+
         </LineChart>
+
       </ResponsiveContainer>
+
     </div>
+
   );
 }
+
 
 export default PollutionAQIChart;

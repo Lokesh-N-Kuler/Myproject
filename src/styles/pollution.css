@@ -567,3 +567,90 @@ background-color: rgba(0, 0, 0, 0.983);
 .view-all-alerts-btn:hover {
   background: #eff6ff;
 }
+/* =========================
+   POLLUTION RESPONSIVE
+   ========================= */
+
+.pollution-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.pollution-live-status small {
+  color: #9ca3af;
+  font-size: 11px;
+  margin-left: 8px;
+}
+
+.good {
+  color: #16a34a;
+}
+
+.pollution-stat-value.good {
+  color: #16a34a;
+}
+
+
+/* Loading / empty states */
+
+.polluted-areas-list > p,
+.air-alert-list > p {
+  color: #9ca3af;
+  padding: 20px 0;
+}
+
+
+/* Mobile */
+
+@media (max-width: 1000px) {
+
+  .pollution-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pollution-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ai-pollution-content {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .pollution-page {
+    padding: 25px 15px;
+  }
+
+  .pollution-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .pollution-header h1 {
+    font-size: 24px;
+  }
+
+  .pollution-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .prediction-stats {
+    flex-direction: column;
+  }
+
+  .air-alert-row {
+    flex-wrap: wrap;
+  }
+
+  .air-alert-time {
+    width: 100%;
+  }
+
+}
